@@ -9,6 +9,6 @@ pub struct Store {
    pub name : String,
    pub base_prices : HashMap<String,Base>,
    pub topping_prices : HashMap<String,Topping>,
-   pub  drink_prices : HashMap<String,Drink>,
+   pub drink_prices : HashMap<String,Drink>,
    pub available_deals : HashMap<String,Deal>,
 }
