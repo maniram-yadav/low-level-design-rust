@@ -1,10 +1,9 @@
-mod base;
-mod topping;
-pub mod use base::Base;
-pub mod use topping::Topping;
+
+use super::Base;
+use super::Topping;
 
 pub struct Pizza {
     name : String ,
-    base : Base;
+    base : Base,
     toppings: Vec<Topping>,
 }

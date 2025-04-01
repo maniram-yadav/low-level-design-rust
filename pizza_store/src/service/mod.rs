@@ -8,7 +8,7 @@ pub mod store;
 
 // pub  use  self::base::Base;
 // pub   use self::topping::Topping;
-pub   use  self::store::Store;
+pub   use  crate::models::Store;
 // pub   use  self::drink::Drink;
 // pub   use  self::orderitem::OrderItem;
 // pub   use  self::pizza::Pizza;

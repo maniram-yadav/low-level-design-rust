@@ -1,18 +1,18 @@
 use std::collections::HashMap;
 use crate::models::Store;
-mod super::models::Base;
-mod super::models::Topping;
-mod super::models::Drink;
-mod deal::Deal;
+use crate::models::Base;
+use crate::models::Topping;
+use crate::models::Drink;
+use crate::models::Deal;
 
-impl Store {
+ impl Store {
     pub fn new(name : String) -> Self {
         Self {
-            name m,
-            base_prices : HashMap::new(),
-            topping_prices : HashMap::new(),
-            drink_prices : HashMap::new(),
-            available_deals : HashMap::new(),
+            name ,
+            base_prices : HashMap::<String,Base>::new(),
+            topping_prices : HashMap::<String,Topping>::new(),
+            drink_prices : HashMap::<String,Drink>::new(),
+            available_deals : HashMap::<String,Deal>::new(),
         }
     }
 }
