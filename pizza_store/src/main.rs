@@ -1,4 +1,5 @@
 mod service;
+mod models;
 
 fn main() {
 
