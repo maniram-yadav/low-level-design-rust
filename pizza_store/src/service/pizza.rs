@@ -16,4 +16,19 @@ impl Pizza {
     pub fn base(&self) -> &Base {
         &self.base
     }
+    pub fn toppings(&self) -> &[Topping]{
+            &self.topping
+    }
+}
+
+impl OrderItem for Pizza {
+    
+    pub fn name(&self) -> Self {
+        &self.name
+    }
+
+    pub fn price(&self) -> f64 {
+        self.base.price() + self.toppings.iter().map(|t| t.price()).sum::<f64>()
+    }
+
 }
