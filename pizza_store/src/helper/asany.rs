@@ -5,7 +5,7 @@ pub trait AsAny {
 }
 
 impl <T:Any> AsAny for T {
-    fn as-any(&self) -> &dyn Any {
+    fn as_any(&self) -> &dyn Any {
         self
     }
 }

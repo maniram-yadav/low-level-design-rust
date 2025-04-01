@@ -12,7 +12,7 @@ use crate::models::Deal;
             base_prices : HashMap::<String,Base>::new(),
             topping_prices : HashMap::<String,Topping>::new(),
             drink_prices : HashMap::<String,Drink>::new(),
-            available_deals : HashMap::<String,Deal>::new(),
+            available_deals : Vec::new(),
         }
     }
 }

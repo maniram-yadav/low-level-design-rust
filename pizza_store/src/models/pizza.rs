@@ -3,7 +3,7 @@ use super::Base;
 use super::Topping;
 
 pub struct Pizza {
-    name : String ,
-    base : Base,
-    toppings: Vec<Topping>,
+  pub  name : String ,
+  pub  base : Base,
+  pub  toppings: Vec<Topping>,
 }

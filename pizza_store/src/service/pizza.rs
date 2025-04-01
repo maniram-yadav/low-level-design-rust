@@ -1,15 +1,15 @@
 use std::collections::HashMap;
 use crate::models::Store;
-use crate::models::Base;
+use crate::models::OrderItem;
 use crate::models::Topping;
-use crate::models::Drink;
-use crate::models::Deal;
+use crate::models::Base;
+use super::Base;
 
 impl Pizza {
-    pub fn new(name : String, base Base,toppings : Vec<Topping>) -> Self {
+    pub fn new(name : String, base : Base,toppings : Vec<Topping>) -> Self {
 
         Self { 
-            name, base, topping
+            name, base, toppings
         }
     }
 
@@ -17,13 +17,13 @@ impl Pizza {
         &self.base
     }
     pub fn toppings(&self) -> &[Topping]{
-            &self.topping
+            &self.toppings
     }
 }
 
 impl OrderItem for Pizza {
     
-    pub fn name(&self) -> Self {
+    pub fn name(&self) -> &str {
         &self.name
     }
 
