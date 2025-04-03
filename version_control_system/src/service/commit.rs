@@ -2,14 +2,16 @@ use super::Commit;
 use super::FileSnapshot;
 use std::collections::HashMap;
 use chrono::{DateTime,Utc};
+use sha1::{Sha1,Digest};
+use::std::path::{PathBuf};
 
 impl Commit {
 
 
-    pub fn new(parent:Option<Commit>,message:String,files:HashMap<String,FileSnapshot>) -> Self {
-        let timestamp = Utc::new();
+    pub fn new(parent:Option<Commit>,message:String,files:HashMap<PathBuf,FileSnapshot>) -> Self {
+        let timestamp = Utc::now();
         let mut hasher = Sha1::new();
-        hasher.update(timestamp.to_rfc3339(),as_bytes());
+        hasher.update(timestamp.to_rfc3339().as_bytes());
         hasher.update(message.as_bytes());
 
         if let Some(p) = &parent {
