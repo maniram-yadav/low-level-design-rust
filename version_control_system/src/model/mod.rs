@@ -9,3 +9,5 @@ pub use self::branch::Branch;
 pub use self::commit::Commit;
 pub use self::filesnapshot::FileSnapshot;
 pub use self::repository::Repository;
+
+pub type Result<T> = std::result::Result<T,VcsError>;

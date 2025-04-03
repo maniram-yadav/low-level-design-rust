@@ -8,3 +8,4 @@ pub use crate::model::Commit;
 pub use crate::model::FileSnapshot;
 pub use crate::model::Repository;
 pub use crate::model::VcsError;
+pub use crate::model::Result;
