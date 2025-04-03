@@ -31,4 +31,15 @@ impl Repository {
         })
     }
 
+    pub fn add(&mut self,paths : &[&Path]) -> Result<()> {
+        for path in paths {
+            let abs_path = self.root_path.join(path);
+            if !abs_path.exists() {
+                return Err(VcsError::FileNotFound(path.to_string_lossy().to_string()));
+            }
+            self.staging_area.insert(path.to_path_buf());
+            
+        }
+        Ok(())
+    }
 }
