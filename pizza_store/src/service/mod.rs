@@ -1,7 +1,6 @@
 pub mod base;
 pub mod drink;
 pub mod order;
-pub mod orderitem;
 pub mod pizza;
 pub mod topping;
 pub mod store;
@@ -15,8 +14,6 @@ pub   use  crate::models::Store;
 pub   use  crate::models::Pizza;
 pub   use  crate::models::Order;
 pub   use  crate::models::Topping;
-pub   use  crate::models::Deal;
-pub   use  crate::models::Drink;
 pub   use  crate::models::PizzaBuilder;
 
 pub   use  self::buyonegetone::BuyOneGetOnefree;

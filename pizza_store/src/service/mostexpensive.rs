@@ -1,4 +1,3 @@
-use crate::models::Pizza;
 use crate::models::OrderItem;
 use crate::models::Deal;
 

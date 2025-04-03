@@ -1,6 +1,4 @@
 use crate::models::Topping;
-use crate::models::Drink;
-use crate::models::Deal;
 use crate::models::OrderItem;
 
 impl Topping {

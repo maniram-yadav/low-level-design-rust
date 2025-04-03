@@ -2,9 +2,6 @@ mod service;
 mod models;
 mod helper;
 use service::Store;
-use service::Base;
-use service::Topping;
-use service::Pizza;
 use service::Order;
 use service::PizzaBuilder;
 
@@ -15,7 +12,7 @@ use service::MostExpensive;
 
 fn main() {
     println!("Hello, Pizza!");
-    let mut store = service::Store::new(String::from("Luigi Pizza"));
+    let mut store = Store::new(String::from("Luigi Pizza"));
     store.add_base("Regular Crust".to_string(),5.8);
     store.add_base("Thin Crust".to_string(),4.8);
     store.add_base("Deep Crust".to_string(),7.99);
@@ -64,5 +61,27 @@ fn main() {
         order.apply_deal(&FreeDrinkWithPizza).unwrap();
 
         let total = order.calculate_total();
-        println!("Total {}",total)
+        println!("Total {}",total);
+
+        let subtotal = order.items().iter().map(|item| item.price()).sum::<f64>();
+        println!("Order from : {}",store.name());
+        println!("\n Items : ");
+        for item in order.items() {
+            println!("- {}: ${:.2}",item.name(),item.price());
+        }
+
+        println!("Applied Deals : ");
+        for deal in order.applied_deals() {
+            println!(" - {}",deal.description());
+        }
+
+        println!("\nSubtotal ${:.2}",subtotal);
+        println!("\nTotal Discount ${:.2}",order.total_discount());
+        println!("\nTotal ${:.2}",total);
+
+        print!("\nAvailable Deals for Pizza Store\n");
+        for deal in store.available_deals() {
+            println!(" - {}",deal.description())
+        }
+
 }

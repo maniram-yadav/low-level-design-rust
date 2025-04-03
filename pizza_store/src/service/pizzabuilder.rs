@@ -1,9 +1,5 @@
-use std::collections::HashMap;
-use super::Store;
 use super::Base;
 use super::PizzaBuilder;
-use super::Drink;
-use super::Deal;
 use super::Pizza;
 use super::Topping;
 

@@ -44,7 +44,7 @@ impl<'a> Order<'a> {
             &self.applied_deals
     }
 
-    pub fn total_apply_discount(&self) -> f64 {
+    pub fn total_discount(&self) -> f64 {
         self.total_discount
     }
     pub fn store(&self) -> &Store {
