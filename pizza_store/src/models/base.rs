@@ -1,4 +1,4 @@
 pub struct Base {
-    name : String,
-    price : f64,
+  pub  name : String,
+   pub price : f64,
 }

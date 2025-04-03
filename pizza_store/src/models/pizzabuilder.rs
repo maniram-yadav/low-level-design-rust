@@ -2,7 +2,7 @@ use crate::models::Base;
 use crate::models::Topping;
 
 pub struct PizzaBuilder {
-    name : Option<String>,
-    base : Option<Base>,
-    toppings : Option<Topping>,
+  pub  name : Option<String>,
+  pub  base : Option<Base>,
+   pub toppings : Option<Topping>,
 }

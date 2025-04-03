@@ -1,4 +1,4 @@
 pub struct Drink {
-    name : String,
-    pricde : f64,
+    pub name : String,
+    pub price : f64,
 }

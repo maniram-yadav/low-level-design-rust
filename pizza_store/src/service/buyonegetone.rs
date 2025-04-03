@@ -1,8 +1,7 @@
 use crate::models::Pizza;
 use crate::models::OrderItem;
-use crate::models::Deal;
 use crate::helper::asany::AsAny;
-
+use crate::models::Deal;
 pub struct BuyOneGetOnefree;
 
 impl Deal for BuyOneGetOnefree {
