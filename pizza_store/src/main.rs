@@ -5,6 +5,8 @@ use service::Store;
 use service::Base;
 use service::Topping;
 use service::Pizza;
+use service::Order;
+use service::PizzaBuilder;
 
 use service::BuyOneGetOnefree;
 use service::FreeDrinkWithPizza;
@@ -34,5 +36,33 @@ fn main() {
 
     let mut order = Order::new(&store);
 
-    
+    let pizza1 = PizzaBuilder::new()
+            .name("Meat Lovers".to_string())
+            .base(store.get_base("Regular Crust").expect("Drink not found"))
+            .add_topping(store.get_topping("Cheese").expect("Drink not found"))            
+            .add_topping(store.get_topping("Pepperoni").expect("Drink not found"))
+            .add_topping(store.get_topping("Sausage").expect("Drink not found"))
+            .build()
+            .unwrap();
+
+        let pizza2 = PizzaBuilder::new()
+            .name("Veggie".to_string())
+            .base(store.get_base("Thin Crust").expect("Drink not found"))
+            .add_topping(store.get_topping("Cheese").expect("Drink not found"))
+            .add_topping(store.get_topping("Mushrooms").expect("Drink not found"))
+            .add_topping(store.get_topping("Onions").expect("Drink not found"))
+            .build()
+            .unwrap();
+
+        order.add_item(Box::new(pizza1));
+        order.add_item(Box::new(pizza2));
+        order.add_item(Box::new(store.get_drink("Soda").expect("Drink not found")));
+        order.add_item(Box::new(store.get_drink("Beer").expect("Drink not found")));
+
+        order.apply_deal(&BuyOneGetOnefree).unwrap();
+        order.apply_deal(&MostExpensive).unwrap();
+        order.apply_deal(&FreeDrinkWithPizza).unwrap();
+
+        let total = order.calculate_total();
+        println!("Total {}",total)
 }

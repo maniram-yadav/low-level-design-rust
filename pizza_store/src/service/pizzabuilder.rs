@@ -1,9 +1,12 @@
 use std::collections::HashMap;
-use crate::models::Store;
-use crate::models::Base;
-use crate::models::PizzaBuilder;
-use crate::models::Drink;
-use crate::models::Deal;
+use super::Store;
+use super::Base;
+use super::PizzaBuilder;
+use super::Drink;
+use super::Deal;
+use super::Pizza;
+use super::Topping;
+
 
 impl PizzaBuilder {
 
@@ -11,7 +14,7 @@ impl PizzaBuilder {
     
         Self {
             name:None,
-            base:Base,
+            base:None,
             toppings:Vec::new(),
         }
     
@@ -22,8 +25,8 @@ impl PizzaBuilder {
         self
     }
 
-    pub fn price(mut self, base : Base) -> Self {
-        self.base = base;
+    pub fn base(mut self, base : Base) -> Self {
+        self.base = Some(base) ;
         self
     }
 
@@ -33,8 +36,8 @@ impl PizzaBuilder {
     }
 
     pub fn build(self) -> Result<Pizza,String>{
-        let name = self.name.ok_or("Pizza must have name");
-        let base = self.base.ok_or("Pizza must have price");
+        let name = self.name.ok_or("Pizza must have name")?;
+        let base = self.base.ok_or("Pizza must have price")?;
         
         Ok(Pizza::new(name,base,self.toppings))
     }

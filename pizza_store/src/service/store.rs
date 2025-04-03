@@ -30,17 +30,17 @@ use crate::models::Deal;
         self.available_deals.push(deal);
     }
 
-    pub fn get_base(&self,name :&str) -> Option<&Base>{
-        self.base_prices.get(name)
+    pub fn get_base(&self,name :&str) -> Option<Base>{
+        self.base_prices.get(name).cloned()
     }
     
     
-    pub fn get_topping(&self,name :&str) -> Option<&Topping>{
-        self.topping_prices.get(name)
+    pub fn get_topping(&self,name :&str) -> Option<Topping>{
+        self.topping_prices.get(name).cloned()
     }
 
-    pub fn get_drink(&self,name :&str) -> Option<&Drink>{
-        self.drink_prices.get(name)
+    pub fn get_drink(&self,name :&str) -> Option<Drink>{
+        self.drink_prices.get(name).cloned()
     }
 
     pub fn available_deals(&self) -> &[Box<dyn Deal>]{
