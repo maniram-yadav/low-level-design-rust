@@ -42,4 +42,38 @@ impl Repository {
         }
         Ok(())
     }
+
+    pub fn commit(&mut self,message : &str ) -> Result<&Commit> {
+
+        if self.staging_area.is_empty(){
+            return Err(VcsError::NoChangesStaged);
+        }
+
+        let mut files = HashMap::new();
+        
+        for path in &self.staging_area {
+            let abs_path = self.root_path.join(path);
+            let content = fs::read(&abs_path)?;
+            files.insert(path.clone(),FileSnapshot::new(path.clone(),content));
+        }
+
+        let parent = self.branches[&self.head].latest_commit().cloned();
+        let commit = Commit::new(parent,message.to_string(),files);
+        // let current_branch =  self.branches.get_mut(&self.head).unwrap();
+        // current_branch.add_commit(commit);
+        
+        self.branches.get_mut(&self.head).unwrap().add_commit(commit);
+        
+        self.staging_area.clear();
+        let latest_commit = self.branches[&self.head].latest_commit().unwrap();
+        self.persist_commit(latest_commit)?;
+
+        Ok(self.branches[&self.head].latest_commit().unwrap())
+    }
+
+    fn persist_commit(&self,commit :&Commit) -> Result<()> {
+        let commit_path = self.root_path.join(".vcs/objects").join(&commit.id);
+        fs::write(commit_path,format!("Commit {}\nMessage : {}",commit.id,commit.message))?;
+        Ok(())
+    }
 }
