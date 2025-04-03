@@ -1,4 +1,5 @@
 use thiserror::Error;
+use std::io;
 
 #[derive(Error,Debug)]
 pub enum VcsError {
@@ -7,13 +8,13 @@ pub enum VcsError {
     Io(#[from] io::Error),
     #[error("File not found: {0}")]
     FileNotFound(String),
-    #[error("No changes staged for commit: {0}")]
+    #[error("No changes staged for commit")]
     NoChangesStaged,
     #[error("Branch already exists : {0}")]
     BranchExists(String),
     #[error("Branch not found : {0}")]
     BranchNotFound(String),
-    #[error("Cannot merge branch with itself : {0}")]
+    #[error("Cannot merge branch with itself")]
     MergeWithSelf,
     #[error("Commit not found : {0}")]
     CommitNotFound(String),
