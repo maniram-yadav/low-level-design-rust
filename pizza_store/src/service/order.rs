@@ -1,4 +1,4 @@
-use crate::models::Order;
-impl Order {
-    
+use super::Order;
+impl<'a> Order<'a> {
+
 }
