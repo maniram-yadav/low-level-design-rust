@@ -2,9 +2,9 @@ use crate::models::Pizza;
 use crate::models::OrderItem;
 use crate::models::Deal;
 
-pub struct BuyOneGetOnefree;
+pub struct MostExpensive;
 
-impl Deal for BuyOneGetOnefree {
+impl Deal for MostExpensive {
     
     fn apply_discount(&self,items: &[Box<dyn OrderItem>]) -> f64 {
         

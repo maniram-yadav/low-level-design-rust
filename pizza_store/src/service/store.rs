@@ -19,7 +19,7 @@ use crate::models::Deal;
         self.base_prices.insert(name.clone(),Base::new(name,price));
     }
 
-    pub fn add_toppings(&mut self,name : String,price :f64){
+    pub fn add_topping(&mut self,name : String,price :f64){
         self.topping_prices.insert(name.clone(),Topping::new(name,price));
     }
     
