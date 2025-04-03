@@ -4,7 +4,7 @@ use crate::models::Pizza;
 use super::Base;
 
 impl Pizza {
-      fn new(name : String, base : Base,toppings : Vec<Topping>) -> Self {
+    pub fn new(name : String, base : Base,toppings : Vec<Topping>) -> Self {
 
         Self { 
             name, base, toppings

@@ -2,7 +2,7 @@ use crate::models::Base;
 use crate::models::OrderItem;
 
 impl Base {
-     fn new(name : String,price : f64) -> Self {
+    pub fn new(name : String,price : f64) -> Self {
             Self {
                 name, price
             }

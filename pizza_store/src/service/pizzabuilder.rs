@@ -34,7 +34,7 @@ impl PizzaBuilder {
 
     pub fn build(self) -> Result<Pizza,String>{
         let name = self.name.ok_or("Pizza must have name");
-        let price = self.name.ok_or("Pizza must have price");
+        let base = self.base.ok_or("Pizza must have price");
         
         Ok(Pizza::new(name,base,self.toppings))
     }
