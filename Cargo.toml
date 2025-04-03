@@ -1,3 +1,3 @@
 [workspace]
 resolver = "2"
-members = ["git_version_control", "pizza_store"]
+members = ["version_control_system", "pizza_store"]

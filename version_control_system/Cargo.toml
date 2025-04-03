@@ -1,6 +1,7 @@
 [package]
-name = "git_version_control"
+name = "version_control_system"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+thiserror = "2.0.12"
