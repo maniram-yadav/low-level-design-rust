@@ -1,4 +1,9 @@
+use std::collections::{HashMap, HashSet};
+use uuid::Uuid;
+use super::User;
 
-pub struct Gender {
-    pub : ,
+#[derive(Debug,Clone)]
+pub struct DatingService {
+    pub users : HashMap<Uuid,User>,
+    pub available_interests : Vec<String>,
 }

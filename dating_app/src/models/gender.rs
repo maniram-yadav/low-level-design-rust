@@ -1,4 +1,10 @@
+use serde::{Serialize, Deserialize};
 
-pub struct Gender {
-    pub : ,
+
+#[derive(Debug,Clone,Copy,PartialEq,Eq,Hash,Serialize,Deserialize)]
+pub enum Gender {
+    Male,
+    Female,
+    Otheer,
+    Any,
 }
