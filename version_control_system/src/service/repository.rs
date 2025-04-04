@@ -76,4 +76,57 @@ impl Repository {
         fs::write(commit_path,format!("Commit {}\nMessage : {}",commit.id,commit.message))?;
         Ok(())
     }
+    pub fn checkout(&mut self,reference : &str) -> Result<()> {
+
+        if self.branches.contains_key(reference) {
+                self.head = reference.to_string();
+                if let Some(commit) = self.branches[reference].latest_commit(){
+                    return self.restore_files(commit);
+                }
+                return Ok(());
+        }
+
+        let commit = self.find_commit(reference)?;
+        return self.restore_files(commit);
+        
+    }
+
+    fn restore_files(&self,commit : &Commit) -> Result<()>{
+
+            for entry in fs::read_dir(&self.root_path)? {
+                let entry = entry?;
+                let path = entry.path();
+                if path.file_name().unwrap() == ".vcs" {
+                    continue
+                }
+                if path.is_dir() {
+                    fs::remove_dir_all(&path)?;
+                } else {
+                    fs::remove_file(&path)?;
+                }
+            }
+
+        for (path,file) in &commit.files {
+
+            let abs_path = self.root_path.join(path);
+            if let Some(parent) = abs_path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+            
+            fs::write(abs_path,&file.content)?;
+        }
+        Ok(())
+    }
+
+    fn find_commit(&self,partial_hash:&str) -> Result<&Commit> {
+
+        for branch in self.branches.values() {
+            for commit in &branch.commits {
+                if commit.id.starts_with(partial_hash) {
+                    return Ok(commit);
+                }
+            }
+        }
+        return Err(VcsError::CommitNotFound(partial_hash.to_string()));
+    }
 }
