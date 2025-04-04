@@ -62,5 +62,48 @@ impl DatingService {
             }
     }
 
+    // pub fn find_best_profile(&self,user:&User) -> Option<User>{
 
+    // }
+
+    // pub fn accept_profile(@self,user_id,Uuid,profile_to_accept_id:Uuid) -> bool {
+
+    // }
+
+    // pub fn decline_profile(&mut self , user_id : Uuid, profile_to_decline_id:Uuid) -> bool {
+
+    // }
+
+    // pub fn get_matches(&self,user_id:&Uuid) -> Vec<User> {
+
+    // }
+
+    // pub fn apply_boost(&mut self,user_id:Uuid,boost_level : u8) {
+
+    // }
+
+    // pub fn super_accept_profile(&mut self,user_id:Uuid,profile_to_super_accept_id : Uuid) -> bool {
+
+    // }
+
+    // pub fn get_total_user_count(&self) -> usize {
+
+    // }
+
+    // pub fn get_matched_user_count(&self) -> usize {
+
+    // }
+    // pub fn get_top_users_by_matches(&self,n : usize) -> usize {
+
+    // }
+
+    // pub fn get_user_cohort_by_gender(&self) -> HashMap<Gender,usize> {
+
+    // }
+
+    // pub fn get_user_cohort_by_age(&self) -> HashMap<Gender,usize> {
+
+    // }
+
+    
 }
