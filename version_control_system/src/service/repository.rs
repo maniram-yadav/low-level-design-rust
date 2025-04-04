@@ -130,6 +130,8 @@ impl Repository {
         return Err(VcsError::CommitNotFound(partial_hash.to_string()));
     }
 
+
+
     pub fn create_branch(&mut self,name : &str) -> Result<()> {
         if self.branches.contains_key(name) {
             return Err(VcsError::BranchExists(name.to_string()));
@@ -146,5 +148,61 @@ impl Repository {
         self.branches.get_mut(&self.head).unwrap()
     }
 
+    pub fn merge(&mut self,source_branch:&str) -> Result<()> {
+
+        if source_branch == self.head {
+            return Err(VcsError::MergeWithSelf);
+        }
+        let source_branch = self.branches.get(source_branch)
+                .ok_or_else(|| VcsError::BranchNotFound(source_branch.to_string()))?;
+        
+        let source_commit = source_branch.latest_commit()
+                .ok_or_else(|| VcsError::BranchNotFound(source_branch.name.to_string()))?;
+        
+        
+        let target_commit ={
+            let current_branch = self.branches.get(&self.head).unwrap();
+            current_branch.latest_commit().cloned()
+        } ;
+        
+        if target_commit.is_none() {
+            if let Some(commit) = source_branch.latest_commit().cloned() {
+                self.current_branch().add_commit(commit);
+            }
+            return Ok(());
+        }
+
+        let target_commit = target_commit.unwrap();
+        let source_files = &source_commit.files;
+        let target_files = &target_commit.files;
+
+        let mut conflicts = Vec::new();
+        let mut merged_files = target_files.clone();
+
+        for (path,source_file) in source_files {
+            if let Some(target_file) = target_files.get(path) {
+                if source_file.hash != target_file.hash {
+                    conflicts.push(path.to_string_lossy().to_string());
+                }
+            } else {
+                merged_files.insert(path.clone(),source_file.clone());
+            }
+
+        }
+
+        if !conflicts.is_empty() {
+            return Err(VcsError::MergeConflict(conflicts));
+        }
+
+        let message= format!("Merge branch `{}` into `{}`",source_branch.name,self.head);
+        let commit = Commit::new(Some(target_commit),message,merged_files);
+
+        let current_branch = self.branches.get_mut(&self.head).unwrap();
+        current_branch.add_commit(commit);
+        let latest_commit = current_branch.latest_commit().unwrap().clone();
+        self.persist_commit(&latest_commit)?;
+
+        return Ok(());
+    }
 
 }
