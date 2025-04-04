@@ -129,4 +129,22 @@ impl Repository {
         }
         return Err(VcsError::CommitNotFound(partial_hash.to_string()));
     }
+
+    pub fn create_branch(&mut self,name : &str) -> Result<()> {
+        if self.branches.contains_key(name) {
+            return Err(VcsError::BranchExists(name.to_string()));
+        }
+        let mut new_branch = Branch::new(name);
+        if let Some(commit) = self.current_branch().latest_commit().cloned() {
+            new_branch.add_commit(commit);
+        }
+        self.branches.insert(name.to_string(),new_branch);
+        Ok(())
+    }
+
+    fn current_branch(&mut self) -> &mut Branch {
+        self.branches.get_mut(&self.head).unwrap()
+    }
+
+
 }
