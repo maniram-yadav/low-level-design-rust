@@ -5,6 +5,6 @@ use serde::{Serialize, Deserialize};
 pub enum Gender {
     Male,
     Female,
-    Otheer,
+    Other,
     Any,
 }
