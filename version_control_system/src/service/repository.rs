@@ -6,7 +6,6 @@ use super::VcsError;
 use std::path::{PathBuf,Path};
 use std::collections::{HashMap,HashSet};
 use std::fs;
-use std::io;
 use super::Result;
 
 impl Repository {

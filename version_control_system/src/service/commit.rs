@@ -1,7 +1,7 @@
 use super::Commit;
 use super::FileSnapshot;
 use std::collections::HashMap;
-use chrono::{DateTime,Utc};
+use chrono::{Utc};
 use sha1::{Sha1,Digest};
 use::std::path::{PathBuf};
 
