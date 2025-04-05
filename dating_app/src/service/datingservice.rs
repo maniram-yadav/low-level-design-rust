@@ -70,7 +70,7 @@ impl DatingService {
                 .filter(|u| user.matched_profiles.contains(&u.id))
                 .collect();
 
-        let (mut preferred_accepted,mut preferred) :
+        let (mut preferred_accepted, preferred) :
                 (Vec<&User>,Vec<&User>) = potential_matches.
                 into_iter().partition(|m| {
                     let is_preferred = self.is_preferred_profile(user,m);
@@ -115,15 +115,15 @@ impl DatingService {
 
     }
 
-    pub fn accept_profile(&mut self,user_id,Uuid,profile_to_accept_id:Uuid) -> bool {
+    pub fn accept_profile(&mut self,user_id : Uuid,profile_to_accept_id : Uuid) -> bool {
         if let Some(user) = self.users.get_mut(&user_id) {
                 user.accepted_profiles.insert(profile_to_accept_id);
                 if let Some(other_user) = self.users.get(&profile_to_accept_id){
                     
                     // Check if there is a match
                     if other_user.accepted_profiles.contains(&user_id) {
-                        if let Some(user) = self.users.get_mut(user_id){
-                            user.matched_profiles.insert(profile_to_super_accept_id);
+                        if let Some(user) = self.users.get_mut(&user_id){
+                            user.matched_profiles.insert(profile_to_accept_id);
                             user.match_count += 1;
                         }
                         if let Some(other_user) = self.users.get_mut(&profile_to_accept_id){
@@ -137,9 +137,11 @@ impl DatingService {
         return false;            
     }
 
-    // pub fn decline_profile(&mut self , user_id : Uuid, profile_to_decline_id:Uuid) -> bool {
-
-    // }
+    pub fn decline_profile(&mut self , user_id : Uuid, profile_to_decline_id:Uuid)  {
+        if let Some(user) = self.users.get_mut(&user_id) {
+            user.declined_profiles.insert(profile_to_decline_id);
+        }
+    }
 
     // pub fn get_matches(&self,user_id:&Uuid) -> Vec<User> {
 
@@ -153,20 +155,25 @@ impl DatingService {
 
     // }
 
-    // pub fn get_total_user_count(&self) -> usize {
+    pub fn get_total_user_count(&self) -> usize {
+        self.users.len()
+    }
 
-    // }
+    pub fn get_matched_user_count(&self) -> usize {
+        self.users.values().filter(|u| !u.matched_profiles.is_empty()).count()
+    }
 
-    // pub fn get_matched_user_count(&self) -> usize {
-
-    // }
     // pub fn get_top_users_by_matches(&self,n : usize) -> usize {
 
     // }
 
-    // pub fn get_user_cohort_by_gender(&self) -> HashMap<Gender,usize> {
-
-    // }
+    pub fn get_user_cohort_by_gender(&self) -> HashMap<Gender,usize> {
+        let mut cohort = HashMap::new();
+        for user in self.users.values() {
+            *cohort.entry(user.gender).or_insert(0) += 1;
+        }
+        cohort
+    }
 
     // pub fn get_user_cohort_by_age(&self) -> HashMap<Gender,usize> {
 
