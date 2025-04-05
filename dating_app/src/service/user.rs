@@ -7,7 +7,7 @@ use super::User;
 use super::Gender;
 
 impl User {
-    fn new(name: String, age: u8, gender: Gender) -> Self {
+   pub fn new(name: String, age: u8, gender: Gender) -> Self {
         Self {
             id: Uuid::new_v4(),
             name,
