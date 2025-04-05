@@ -56,4 +56,33 @@ impl<'a> Profile<'a>{
         println!("Profile created successfully with id {}. Add interests and Preferences",new_user.id);
         
     }
+
+    pub fn add_interests(&mut self ,user_id : Uuid ){ 
+        
+        println!("\n Available interests : ");
+        for (i,interest) in self.service.available_interests.iter().enumerate() {
+            println!("{}. {} ",i+1,interest);
+        }
+
+        println!("Entr all interests you want to add (seperated by comma ): ");
+        let input = Input::read();
+        let total_interest = self.service.available_interests.len();
+
+        let interests = self.service.available_interests.clone();
+
+        if let Some(user) = self.service.get_user_mut(user_id) {
+            
+            for interest in input.split(',') {
+
+                if let Ok(index) = interest.trim().parse::<usize>() {
+                    if index > 0 && index < total_interest {
+                        
+                        user.interests.insert(interests[index-1].clone());
+                    } 
+                }
+            }
+            println!("interest updated successfully");
+        }
+
+    }
 }

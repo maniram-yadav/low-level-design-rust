@@ -30,7 +30,7 @@ impl Menu {
         let choice = Input::read();
 
         match choice.as_str() { 
-            "1" => println!("1"),
+            "1" => profile.add_interests(current_user.unwrap()),
             "2" => println!("2"),
             "3" => println!("3"),
             "4" => println!("4"),
@@ -39,7 +39,10 @@ impl Menu {
             "7" => println!("7"),
             "8" => println!("8"),
             "9" => println!("9"),
-            "10" => println!("10"),
+            "10" =>{
+                *current_user = None;
+                println!("Logged out successfully");
+            },
             _ => println!("Invalid opion. Try again"),
         }
 
