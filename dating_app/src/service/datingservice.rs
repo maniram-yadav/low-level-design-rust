@@ -62,9 +62,58 @@ impl DatingService {
             }
     }
 
-    // pub fn find_best_profile(&self,user:&User) -> Option<User>{
+    pub fn find_best_profile(&self,user:&User) -> Option<User>{
+        
+        let potential_matches : Vec<&User> = self.users.values()
+                .filter(|u| u.id!=user.id)
+                .filter(|u| user.declined_profiles.contains(&u.id))
+                .filter(|u| user.matched_profiles.contains(&u.id))
+                .collect();
 
-    // }
+        let (mut preferred_accepted,mut preferred) :
+                (Vec<&User>,Vec<&User>) = potential_matches.
+                into_iter().partition(|m| {
+                    let is_preferred = self.is_preferred_profile(user,m);
+                    let has_accepted = m.accepted_profiles.contains(&user.id);
+                    is_preferred && has_accepted
+                });
+                
+        let preferred_clone =  preferred.clone();
+        let mut preferred_only:Vec<&User> = preferred.into_iter()
+                .filter(|m| self.is_preferred_profile(user,m))
+                .collect();
+        let mut unpreferred_only:Vec<&User>  = preferred_clone.into_iter()
+                .filter(|m| !self.is_preferred_profile(user,m) && 
+                        m.accepted_profiles.contains(&user.id))
+                .collect();
+        
+        // Sort each list by mutual interests                
+        preferred_accepted.sort_by(|a,b| self.count_mutual_interests(user,b)
+                    .cmp(&self.count_mutual_interests(user,a)));
+
+        preferred_only.sort_by(|a,b| self.count_mutual_interests(user,b)
+                    .cmp(&self.count_mutual_interests(user,a)));
+
+        unpreferred_only.sort_by(|a,b| self.count_mutual_interests(user,b)
+                    .cmp(&self.count_mutual_interests(user,a)));
+        
+        // Combine list in priority order                        
+        let mut ranked_profile: Vec<&User> = Vec::new();
+        ranked_profile.extend(preferred_accepted);
+        ranked_profile.extend(preferred_only);
+        ranked_profile.extend(unpreferred_only);
+
+        ranked_profile.sort_by(|a,b| {
+            if a.is_boost_active()|| b.is_boost_active() {
+                b.boost_level.cmp(&a.boost_level)
+            } else {
+                std::cmp::Ordering::Equal
+            }}
+        );
+        ranked_profile.sort_by(|a,b| a.match_count.cmp(&b.match_count));
+        ranked_profile.first().map(|u| (*u).clone())
+
+    }
 
     // pub fn accept_profile(@self,user_id,Uuid,profile_to_accept_id:Uuid) -> bool {
 

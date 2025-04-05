@@ -26,7 +26,7 @@ impl User {
         }
     }
 
-    fn is_boost_active(&self) -> bool {
+   pub fn is_boost_active(&self) -> bool {
         self.boost_expiry.map_or(false,|expiry| expiry > Utc::now())
     }
 }
