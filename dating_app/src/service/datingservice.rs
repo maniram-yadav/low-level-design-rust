@@ -77,7 +77,7 @@ impl DatingService {
                     let has_accepted = m.accepted_profiles.contains(&user.id);
                     is_preferred && has_accepted
                 });
-                
+
         let preferred_clone =  preferred.clone();
         let mut preferred_only:Vec<&User> = preferred.into_iter()
                 .filter(|m| self.is_preferred_profile(user,m))
@@ -115,9 +115,27 @@ impl DatingService {
 
     }
 
-    // pub fn accept_profile(@self,user_id,Uuid,profile_to_accept_id:Uuid) -> bool {
-
-    // }
+    pub fn accept_profile(&mut self,user_id,Uuid,profile_to_accept_id:Uuid) -> bool {
+        if let Some(user) = self.users.get_mut(&user_id) {
+                user.accepted_profiles.insert(profile_to_accept_id);
+                if let Some(other_user) = self.users.get(&profile_to_accept_id){
+                    
+                    // Check if there is a match
+                    if other_user.accepted_profiles.contains(&user_id) {
+                        if let Some(user) = self.users.get_mut(user_id){
+                            user.matched_profiles.insert(profile_to_super_accept_id);
+                            user.match_count += 1;
+                        }
+                        if let Some(other_user) = self.users.get_mut(&profile_to_accept_id){
+                            other_user.matched_profiles.insert(user_id);
+                            other_user.match_count += 1;
+                        }
+                    }
+                    return true;
+                }
+        }
+        return false;            
+    }
 
     // pub fn decline_profile(&mut self , user_id : Uuid, profile_to_decline_id:Uuid) -> bool {
 
