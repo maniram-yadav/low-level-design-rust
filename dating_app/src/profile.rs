@@ -5,6 +5,7 @@ use uuid::Uuid;
 use crate::service::Gender;
 
 pub struct Profile<'a> {
+   pub
     service:&'a mut DatingService
 }
 
@@ -19,9 +20,9 @@ impl<'a> Profile<'a>{
     pub fn create_profile(&mut self ,current_user : &mut Option<Uuid> ){
        
         println!("Create a new profile");
-        print!("Enter Name : ");
+        print!("\nEnter Name : ");
         let name = Input::read();
-        print!("Enter Age : ");
+        print!("\nEnter Age : ");
         let age_str = Input::read();
 
         let age = match age_str.parse::<u8>() {
@@ -34,7 +35,7 @@ impl<'a> Profile<'a>{
 
         };
 
-        print!("Enter gender (male, Female, Other) : ");
+        println!("\nEnter Gender (male, Female, Other) : ");
         let gender_str = Input::read();
 
         let gender = match gender_str.to_lowercase().as_str() {
@@ -52,7 +53,7 @@ impl<'a> Profile<'a>{
         self.service.add_user(new_user.clone());
         *current_user = Some(new_user.id);
 
-        println!("Profile created successfully. Add interests and Preferences");
+        println!("Profile created successfully with id {}. Add interests and Preferences",new_user.id);
         
     }
 }

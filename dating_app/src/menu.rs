@@ -3,16 +3,17 @@ use uuid::Uuid;
 use crate::service::DatingService;
 use crate::input::Input;
 use crate::profile::Profile;
+use crate::login::Login;
 
 pub struct Menu;
 
 
 impl Menu {
 
-    pub fn show_authenticated_menu(service : &mut DatingService,current_user :&mut Option<Uuid>){
+    pub fn show_authenticated_menu(profile : &mut Profile<'_>,current_user :&mut Option<Uuid>){
 
         let userid = current_user.unwrap();
-        let user = service.get_user(userid).unwrap();
+        let user = profile.service.get_user(userid).unwrap();
 
         println!("\nWelcome, {}!", user.name);
         println!("1. Add Interests");
@@ -30,20 +31,20 @@ impl Menu {
 
         match choice.as_str() { 
             "1" => println!("1"),
-            "2" => println!("1"),
-            "3" => println!("1"),
-            "4" => println!("1"),
-            "5" => println!("1"),
-            "6" => println!("1"),
-            "7" => println!("1"),
-            "8" => println!("1"),
-            "9" => println!("1"),
-            "10" => println!("1"),
+            "2" => println!("2"),
+            "3" => println!("3"),
+            "4" => println!("4"),
+            "5" => println!("5"),
+            "6" => println!("6"),
+            "7" => println!("7"),
+            "8" => println!("8"),
+            "9" => println!("9"),
+            "10" => println!("10"),
             _ => println!("Invalid opion. Try again"),
         }
 
     }
-    pub fn show_unauthenticated_menu(service : &mut DatingService,current_user :&mut Option<Uuid>){
+    pub fn show_unauthenticated_menu(profile : &mut Profile<'_>,current_user :&mut Option<Uuid>){
         println!("\nMain Menu");
         println!("1 Login ");
         println!("2 Create Profle ");
@@ -53,8 +54,8 @@ impl Menu {
         let data = Input::read();    
 
         match data.as_str() {
-            "1" => println!("Login"),
-            "2" => println!("Create profile"),
+            "1" => Login::login(profile.service,current_user),
+            "2" => profile.create_profile(current_user),
             "3" => {
                 println!("Thank you for using dating App.");
                 std::process::exit(0);
