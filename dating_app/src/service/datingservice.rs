@@ -154,7 +154,7 @@ impl DatingService {
     }
 
     pub fn apply_boost(&mut self,user_id:Uuid,boost_level : u8) {
-        if Some(user) = self.users.get_mut(&user_id) {
+        if let Some(user) = self.users.get_mut(&user_id) {
             user.boost_level = boost_level;
             user.boost_expiry = Some(if boost_level == 1 {
                     Utc::now() + chrono::Duration::hours(24)
@@ -164,10 +164,19 @@ impl DatingService {
         }
     }
 
-    // pub fn super_accept_profile(&mut self,user_id:Uuid,profile_to_super_accept_id : Uuid) -> bool {
+    pub fn super_accept_profile(&mut self,user_id:Uuid,profile_to_super_accept_id : Uuid) -> bool {
+        
+        if let Some(user) = self.users.get_mut(&user_id) {
+            if user.used_super_accept {
+                return false;
+            }
+            user.used_super_accept = true;
+            return true;
+        }
 
-    // }
-    
+        false
+    }
+
 
     pub fn get_total_user_count(&self) -> usize {
         self.users.len()
