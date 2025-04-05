@@ -143,17 +143,31 @@ impl DatingService {
         }
     }
 
-    // pub fn get_matches(&self,user_id:&Uuid) -> Vec<User> {
+    pub fn get_matches(&self,user_id:&Uuid) -> Vec<User> {
+        self.users.get(&user_id)
+            .map(|user| {
+                user.matched_profiles.iter()
+                    .filter_map(|id| self.users.get(id))
+                    .cloned()
+                    .collect()
+            }).unwrap_or_default()
+    }
 
-    // }
-
-    // pub fn apply_boost(&mut self,user_id:Uuid,boost_level : u8) {
-
-    // }
+    pub fn apply_boost(&mut self,user_id:Uuid,boost_level : u8) {
+        if Some(user) = self.users.get_mut(&user_id) {
+            user.boost_level = boost_level;
+            user.boost_expiry = Some(if boost_level == 1 {
+                    Utc::now() + chrono::Duration::hours(24)
+            } else { 
+                    Utc::now() + chrono::Duration::hours(48)
+            });
+        }
+    }
 
     // pub fn super_accept_profile(&mut self,user_id:Uuid,profile_to_super_accept_id : Uuid) -> bool {
 
     // }
+    
 
     pub fn get_total_user_count(&self) -> usize {
         self.users.len()
