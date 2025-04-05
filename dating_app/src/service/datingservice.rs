@@ -186,9 +186,11 @@ impl DatingService {
         self.users.values().filter(|u| !u.matched_profiles.is_empty()).count()
     }
 
-    // pub fn get_top_users_by_matches(&self,n : usize) -> usize {
-
-    // }
+    pub fn get_top_users_by_matches(&self,n : usize) -> Vec<User> {
+        let mut users : Vec<User>  = self.users.values().cloned().collect();
+        users.sort_by(|a,b| b.matched_profiles.len().cmp(&a.matched_profiles.len()));
+        users.into_iter().take(n).collect()
+    }
 
     pub fn get_user_cohort_by_gender(&self) -> HashMap<Gender,usize> {
         let mut cohort = HashMap::new();
@@ -198,9 +200,22 @@ impl DatingService {
         cohort
     }
 
-    // pub fn get_user_cohort_by_age(&self) -> HashMap<Gender,usize> {
+    pub fn get_user_cohort_by_age(&self) -> HashMap<String,usize> {
+        let mut cohort = HashMap::new();
+        cohort.insert("Under 20".to_string(),0);
+        cohort.insert("20-29".to_string(),0);
+        cohort.insert("30-39".to_string(),0);
+        cohort.insert("40+".to_string(),0);
 
-    // }
-
+        for user in self.users.values() {
+            match user.age {
+                0..=19 => *cohort.get_mut("Under 20").unwrap() += 1,
+                20..=29 => *cohort.get_mut("20-29").unwrap() += 1,
+                30..=39 => *cohort.get_mut("30-39").unwrap() += 1,
+                _ => *cohort.get_mut("40+").unwrap() += 1,
+            }
+        }
+        cohort
+    }
     
 }
