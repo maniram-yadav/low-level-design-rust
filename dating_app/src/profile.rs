@@ -3,6 +3,7 @@ use crate::input::Input;
 use crate::service::User;
 use uuid::Uuid;
 use crate::service::Gender;
+use crate::service::PartnerPreferences;
 
 pub struct Profile<'a> {
    pub
@@ -83,6 +84,50 @@ impl<'a> Profile<'a>{
             }
             println!("interest updated successfully");
         }
+
+    }
+
+    pub fn add_partner_preferences(&mut self ,user_id : Uuid ){ 
+        println!("\nEnter preferences ") ;
+        
+        print!("Min Age : ");
+        let min_age_str = Input::read();
+        let min_age = match min_age_str.parse::<u8>() {
+            Ok(age) => age,
+            Err(_) => {
+                println!("Enter valid age");
+                return;
+            }
+        };
+
+        print!("Max Age : ");
+        let max_age_str = Input::read();
+        let max_age = match max_age_str.parse::<u8>() {
+            Ok(age) => age,
+            Err(_) => {
+                println!("Enter valid age");
+                return;
+            }
+        };
+
+        print!("Gender (male,female,other,any) : ");
+        let gender_str = Input::read();
+        let gender = match gender_str.to_lowercase().as_str() {
+            "male" => Gender::Male,
+            "female" => Gender::Female,
+            "any" => Gender::Any,
+            "other" => Gender::Other,
+            _ => {
+                println!("Enter valid Gender");
+                return;
+            }
+        };
+
+        if let Some(user) = self.service.get_user_mut(user_id) {
+            user.partner_prefs = Some(PartnerPreferences::new( min_age,max_age,gender,false));
+            println!("partner Preference set successfully.");
+        }
+        
 
     }
 }
