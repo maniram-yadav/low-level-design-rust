@@ -207,11 +207,61 @@ impl<'a> Profile<'a>{
     }
 
     pub fn buy_boost(&mut self ,user_id : Uuid ){ 
+      
+        println!("\nBoost Plans");
+        println!("\n1. Basic Boost - $4.99 (2x visibility for 24 hours)");
+        println!("\n1. Basic Boost - $9.99 (4x visibility for 48 hours)");
+        println!("\nChose a plan (1-2) or 0 for cancel");
+        let choice = Input::read();
+
+        match choice.as_str() {
+            "1" => {
+                self.service.apply_boost(user_id,1);
+                println!("Boost activated! Your profile will be shown more frequently.");
+            },
+            "2" => {
+
+                self.service.apply_boost(user_id, 2);
+                println!("Boost activated! Your profile will be shown more frequently.");
+            },
+            _ => {
+                println!("Boost plan cancelled");
+            },
+        }
         
     }
 
     pub fn show_stats(&mut self ,user_id : Uuid ){ 
+
+        if let Some(user) = self.service.get_user(user_id) {
         
+            if !user.is_admin {
+                println!("Only User Admin can view stats");
+            }
+            let user_count = self.service.get_total_user_count();
+            let matched_cont = self.service.get_matched_user_count();
+            println!("Total user count : {}",user_count);
+            println!("Matched user count : {}",matched_cont);
+
+            println!("Top 5 users with most matches");
+            let top_users = self.service.get_top_users_by_matches(5);
+            for user in top_users {
+                println!("- {} : {} matches " , user.name, user.matched_profiles.len());
+            }
+
+            println!("\nUser cohort by Gender : ");
+            let gender_count = self.service.get_user_cohort_by_gender();
+            for (gender,count) in gender_count {
+                println!("- {}: {} users",gender,count);
+            }
+
+            println!("\nUser cohort by Age : ");
+            let age_count = self.service.get_user_cohort_by_age();
+            for (range,count) in age_count {
+                println!("- {}: {} users",range,count);
+            }
+            
+        }
     }
 
     pub fn super_accept_profile(&mut self ,user_id : Uuid ){ 
