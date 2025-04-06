@@ -174,8 +174,19 @@ impl<'a> Profile<'a>{
 
 
     pub fn decline_profile(&mut self ,user_id : Uuid ){ 
-        
+    
+        println!("\nEnter profile id to decline : ")    ;
+        let id = Input::read();
+
+        if let Ok(profile_to_decline_id) = Uuid::parse_str(&id) {
+                self.service.decline_profile(user_id,profile_to_decline_id) ;
+                println!("Profile declined!  It will never appear in list again.");
+           
+        } else {
+            println!("Invalid UUId format.");
+        }
     }
+
     pub fn list_matched_profiles(&mut self ,user_id : Uuid ){ 
         
     }
