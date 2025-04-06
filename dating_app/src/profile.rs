@@ -157,8 +157,22 @@ impl<'a> Profile<'a>{
     }
 
     pub fn accept_profile(&mut self ,user_id : Uuid ){ 
-        
+
+        println!("\nEnter profile id to accept : ")    ;
+        let id = Input::read();
+
+        if let Ok(profile_to_accept_id) = Uuid::parse_str(&id) {
+            if self.service.accept_profile(user_id,profile_to_accept_id) {
+                println!("Profile accepted! You have got match if they also accepted you.");
+            } else {
+                println!("Profile accepted ");
+            }
+        } else {
+            println!("Invalid UUId format.");
+        }
     }
+
+
     pub fn decline_profile(&mut self ,user_id : Uuid ){ 
         
     }
