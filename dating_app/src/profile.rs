@@ -266,7 +266,41 @@ impl<'a> Profile<'a>{
 
     pub fn super_accept_profile(&mut self ,user_id : Uuid ){ 
         
+        if let Some(user) = self.service.get_user(user_id) {
+            if user.used_super_accept {
+                println!("You can only use super accept once in lifetime");
+                return;
+            }
+        }
+
+        println!("Enter profile id to super accept ");
+        let profile_id = Input::read();
+
+        if let Ok(id) = Uuid::parse_str(&profile_id) {
+            if self.service.super_accept_profile(user_id) {
+                println!("Super accept sent! Your profile wil be sent at the top of their feed");
+            } else {
+                println!("Failed to super accept");
+            }
+        } else {
+            println!("Invalid Uuid format");
+        }
+
+
     }
 
+    pub fn list_all_users(&mut self ,user_id : Uuid ){ 
+        
+        if user_id.to_string() != Uuid::nil().to_string() {
+            println!("\nOnly admin can view all users.");
+            return ;
+        }
+        let users = self.service.get_users();
+        for user in users {
+            println!("{} {} {} {}",user.id.to_string(),user.name,user.age,user.gender);
+        }
+        
+        
+    }
 
 }

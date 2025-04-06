@@ -1,14 +1,8 @@
-
-
 use std::collections::{HashMap, HashSet};
-use std::io;
-use std::time::{SystemTime, UNIX_EPOCH};
-use chrono::{DateTime, Utc};
-use serde::{Serialize, Deserialize};
+use chrono::{ Utc};
 use uuid::Uuid;
 
 use super::Gender;
-use super::PartnerPreferences;
 use super::DatingService;
 use super::User;
 
@@ -33,10 +27,17 @@ impl DatingService {
     }
 
     pub fn add_user(&mut self,user : User) {
+        println!("User created with name {}",&user.name);
         self.users.insert(user.id,user);
+        
     }
+
     pub fn get_user(&self,user_id:Uuid) -> Option<&User> {
         self.users.get(&user_id)
+    }
+    pub fn get_users(&self) -> Vec<User> {
+        // self.users.values().collect::<Vec<User>>();
+        self.users.values().cloned().collect()
     }
     
     pub fn get_user_mut(&mut self,user_id:Uuid) -> Option<&mut User> {
@@ -169,7 +170,7 @@ impl DatingService {
         }
     }
 
-    pub fn super_accept_profile(&mut self,user_id:Uuid,profile_to_super_accept_id : Uuid) -> bool {
+    pub fn super_accept_profile(&mut self,user_id:Uuid) -> bool {
         
         if let Some(user) = self.users.get_mut(&user_id) {
             if user.used_super_accept {

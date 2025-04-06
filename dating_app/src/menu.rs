@@ -25,21 +25,24 @@ impl Menu {
         println!("7. Buy Boost");
         println!("8. Show Stats (Admin Only)");
         println!("9. Super Accept Profile");
-        println!("10. Logout");
+        println!("10. List All users");
+        println!("11. Logout");
         print!("Choose an option: ");
-        let choice = Input::read();
 
+        let choice = Input::read();
+        let user_id = current_user.unwrap();
         match choice.as_str() { 
             "1" => profile.add_interests(current_user.unwrap()),
-            "2" => println!("2"),
-            "3" => println!("3"),
-            "4" => println!("4"),
-            "5" => println!("5"),
-            "6" => println!("6"),
-            "7" => println!("7"),
-            "8" => println!("8"),
-            "9" => println!("9"),
-            "10" =>{
+            "2" => profile.set_partner_preferences(user_id),
+            "3" => profile.get_best_profile(user_id),
+            "4" => profile.accept_profile(user_id),
+            "5" => profile.decline_profile(user_id),
+            "6" => profile.list_matched_profiles(user_id),
+            "7" => profile.buy_boost(user_id),
+            "8" => profile.show_stats(user_id),
+            "9" => profile.super_accept_profile(user_id),
+            "10" => profile.list_all_users(user_id),
+            "11" =>{
                 *current_user = None;
                 println!("Logged out successfully");
             },
@@ -48,6 +51,7 @@ impl Menu {
 
     }
     pub fn show_unauthenticated_menu(profile : &mut Profile<'_>,current_user :&mut Option<Uuid>){
+        
         println!("\nMain Menu");
         println!("1 Login ");
         println!("2 Create Profle ");

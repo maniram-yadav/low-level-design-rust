@@ -8,8 +8,15 @@ use super::Gender;
 
 impl User {
    pub fn new(name: String, age: u8, gender: Gender) -> Self {
+        
+        let mut id =    Uuid::new_v4();
+        
+        if name.to_string().to_lowercase() == "admin"{
+                id =  Uuid::nil();
+        }
+
         Self {
-            id: Uuid::new_v4(),
+            id,
             name,
             age,
             gender,

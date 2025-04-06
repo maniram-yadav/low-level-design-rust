@@ -13,7 +13,7 @@ use testdata::TestData;
 use service::DatingService;
 
 fn main() {
-    println!("Hello, Dating App!");
+    println!("Hello, Welcome to Dating App!");
 
     let mut service = DatingService::new();
     TestData::initialize_test_data(&mut service);

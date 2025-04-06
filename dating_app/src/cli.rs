@@ -1,4 +1,3 @@
-
 use crate::menu::Menu;
 use crate::profile::Profile;
 use crate::service::DatingService;

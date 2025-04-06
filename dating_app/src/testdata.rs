@@ -3,12 +3,10 @@ use crate::service::Gender;
 use crate::service::User;
 use crate::service::PartnerPreferences;
 
-pub struct TestData<'a> {
-    service : &'a mut DatingService
-}
+pub struct TestData;
 
-impl<'a > TestData<'a > {
-    pub fn initialize_test_data(service : &'a mut DatingService ){
+impl TestData {
+    pub fn initialize_test_data(service : &mut DatingService ){
         println!("Initializing Data");
         
         let mut alice = User::new("Alice".to_string(),25,Gender::Male);
@@ -32,6 +30,8 @@ impl<'a > TestData<'a > {
         eve.partner_prefs = Some(PartnerPreferences::new(25, 35, Gender::Male, false));
 
         let mut admin = User::new("Admin".to_string(), 35, Gender::Other);
+        admin.interests.extend(vec![]);
+        admin.partner_prefs = None;
         admin.is_admin = true;
 
         service.add_user(alice);
