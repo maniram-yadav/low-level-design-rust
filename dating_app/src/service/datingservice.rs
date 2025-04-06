@@ -47,6 +47,11 @@ impl DatingService {
         user1.interests.intersection(&user2.interests).count()
     }
 
+    
+    pub fn get_mutual_interests(&self, user1: &User, user2: &User) -> Vec<String> {
+        user1.interests.intersection(&user2.interests).cloned().collect()
+    }
+
     pub fn is_preferred_profile(&self,user : &User,potential_match:&User) -> bool {
             if let Some(prefs) = &user.partner_prefs {
                 if  potential_match.age < prefs.min_age || potential_match.age > prefs.max_age {

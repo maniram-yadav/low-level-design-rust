@@ -188,7 +188,22 @@ impl<'a> Profile<'a>{
     }
 
     pub fn list_matched_profiles(&mut self ,user_id : Uuid ){ 
-        
+        let matched_profiles = self.service.get_matches(&user_id);
+        if matched_profiles.is_empty() {
+                println!("No match found");
+        } else {
+
+            println!("\nYour matches");
+            for matched_user in matched_profiles {
+                println!("{} - ({} years, {})",matched_user.name,matched_user.age,matched_user.gender);
+                if let Some(user) = self.service.get_user(user_id) {
+                    let matched_interests = self.service.get_mutual_interests(user,&matched_user);
+                    println!("  Shared interests  : {} ",matched_interests.join(", "));
+                }
+            }
+
+        }
+
     }
 
     pub fn buy_boost(&mut self ,user_id : Uuid ){ 
