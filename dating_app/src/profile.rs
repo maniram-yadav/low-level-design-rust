@@ -87,7 +87,7 @@ impl<'a> Profile<'a>{
 
     }
 
-    pub fn add_partner_preferences(&mut self ,user_id : Uuid ){ 
+    pub fn set_partner_preferences(&mut self ,user_id : Uuid ){ 
         println!("\nEnter preferences ") ;
         
         print!("Min Age : ");
@@ -130,4 +130,53 @@ impl<'a> Profile<'a>{
         
 
     }
+
+    pub fn get_best_profile(&mut self ,user_id : Uuid ){ 
+
+        if let Some(user) = self.service.get_user(user_id) {
+        
+            if let Some(best_profile) = self.service.find_best_profile(user) {
+                println!("\n Best profile for you");
+                println!("Name : {} ",best_profile.name);
+                println!("Age : {} ",best_profile.age);
+                println!("Gender : {} ",best_profile.gender);
+                let interests_cloned = best_profile.interests.clone();
+                let interests : Vec<String> = interests_cloned.into_iter().collect();
+
+                println!("Interests : {} ",interests.join(", "));
+                let mutual_interests = self.service.count_mutual_interests(user,&best_profile);
+                println!("Total Mutual Interests : {} ",mutual_interests);
+
+                let is_preferred = self.service.is_preferred_profile(user,&best_profile);
+                println!("Matches your preferences : {} ",is_preferred);
+            } else {
+                println!("No profile available at the moment. Check back later ");
+            }
+        }
+
+    }
+
+    pub fn accept_profile(&mut self ,user_id : Uuid ){ 
+        
+    }
+    pub fn decline_profile(&mut self ,user_id : Uuid ){ 
+        
+    }
+    pub fn list_matched_profiles(&mut self ,user_id : Uuid ){ 
+        
+    }
+
+    pub fn buy_boost(&mut self ,user_id : Uuid ){ 
+        
+    }
+
+    pub fn show_stats(&mut self ,user_id : Uuid ){ 
+        
+    }
+
+    pub fn super_accept_profile(&mut self ,user_id : Uuid ){ 
+        
+    }
+
+
 }
